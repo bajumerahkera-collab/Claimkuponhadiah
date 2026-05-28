@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claim Kupon Berhadiah Uang Tunai</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <div class="card">
+            <h2>🎉 KLAIM KUPON BERHADIAH 🎉</h2>
+            <p class="subtitle">Masukkan User ID dan Kode Kupon Anda untuk mendapatkan hadiah uang tunai instan!</p>
+            
+            <form id="claimForm">
+                <div class="input-group">
+                    <label for="userId">User ID</label>
+                    <input type="text" id="userId" placeholder="Contoh: USER123" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="couponCode">Kode Kupon</label>
+                    <input type="text" id="couponCode" placeholder="Contoh: KUPON-77X9" required>
+                </div>
+
+                <button type="submit" id="btnClaim">KLAIM HADIAH SEKARANG</button>
+            </form>
+
+            <div id="resultZone" class="hidden">
+                <div class="animation-box">🎁</div>
+                <h3>Selamat! Anda Mendapatkan:</h3>
+                <div id="prizeAmount" class="prize-text">Rp 0</div>
+                <p>Hadiah telah ditambahkan ke User ID Anda.</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
