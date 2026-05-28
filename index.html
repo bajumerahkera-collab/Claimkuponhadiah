@@ -3,40 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Claim Kupon Berhadiah Uang Tunai</title>
+    <title>CLAIM KUPON BERHADIAH UNTUK ANDA</title>
+    <!-- Menghubungkan ke file CSS -->
     <link rel="stylesheet" href="style.css">
+    <!-- Font Mewah (Playfair Display) -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
 
+    <div class="luxury-background">
+        <!-- Partikel mengambang di background -->
+        <div class="particles"></div>
+    </div>
+
     <div class="container">
-        <div class="card">
-            <h2>🎉 KUPON BERHADIAH 🎉</h2>
-            <p class="subtitle">Masukkan User ID dan Kode Kupon Anda untuk mendapatkan hadiah uang tunai instan!</p>
+        <!-- KARTU UTAMA -->
+        <div class="luxury-card" id="mainCard">
             
-            <form id="claimForm">
-                <div class="input-group">
-                    <label for="userId">User ID</label>
-                    <input type="text" id="userId" placeholder="Contoh: USER123" required>
+            <!-- HALAMAN AWAL (INPUT FORM) -->
+            <div id="claimPage" class="page-content active">
+                <div class="luxury-header">
+                    <h2>KLAIM KUPON BERHADIAH</h2>
+                    <p>Masukkan User ID dan Kode Kupon Anda untuk membuka hadiah uang tunai instan!</p>
                 </div>
 
-                <div class="input-group">
-                    <label for="couponCode">Kode Kupon</label>
-                    <input type="text" id="couponCode" placeholder="Contoh: KUPON-77X9" required>
-                </div>
+                <form id="claimForm">
+                    <div class="luxury-input-group">
+                        <label for="userId">User ID</label>
+                        <input type="text" id="userId" placeholder="Masukkan ID Anda" required>
+                        <div class="input-glow"></div>
+                    </div>
 
-                <button type="submit" id="btnClaim">KLAIM HADIAH SEKARANG</button>
-            </form>
+                    <div class="luxury-input-group">
+                        <label for="couponCode">Kode Kupon</label>
+                        <input type="text" id="couponCode" placeholder="Masukkan Kode Kupon" required>
+                        <div class="input-glow"></div>
+                    </div>
 
-            <div id="resultZone" class="hidden">
-                <div class="animation-box">🎁</div>
-                <h3>Selamat! Anda Mendapatkan:</h3>
-                <div id="prizeAmount" class="prize-text">Rp 0</div>
-                <p>Hadiah telah ditambahkan ke User ID Anda.</p>
-                <a href="https://mampirbetul.com/" id="btnRedirect" target="_blank">CLAIM SEKARANG JUGA</a>
+                    <button type="submit" id="btnClaim" class="btn-primary">KLAIM HADIAH SEKARANG</button>
+                </form>
             </div>
+
+            <!-- HALAMAN HASIL (PRIZE & REDIRECT) -->
+            <div id="resultPage" class="page-content">
+                <div class="result-header">
+                    <div class="prizebox-wrapper">
+                        <!-- Peti harta karun emas animasi -->
+                        <div class="chest-box">🎁</div>
+                        <div class="floating-coins">
+                            <span>🌕</span><span>🌕</span><span>🌕</span>
+                        </div>
+                    </div>
+                    <h3>Selamat! Anda Mendapatkan:</h3>
+                </div>
+
+                <!-- NOMINAL HADIAH DINAMIS -->
+                <div id="prizeAmount" class="prize-text-glowing">Rp 0</div>
+                <p>Hadiah telah ditambahkan ke User ID Anda.</p>
+                
+                <!-- TOMBOL REDIRECT LANGSUNG -->
+                <a href="https://siulpordi.com/" id="btnRedirect" target="_blank" class="btn-secondary">CLAIM SEKARANG JUGA</a>
+            </div>
+
         </div>
     </div>
 
+    <!-- Menghubungkan ke file JavaScript -->
     <script src="script.js"></script>
 </body>
 </html>
