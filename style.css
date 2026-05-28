@@ -1,0 +1,139 @@
+/* Reset Dasar */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #1e1e2f, #11111b);
+    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* Container & Card Utama */
+.container {
+    width: 100%;
+    max-width: 450px;
+}
+
+.card {
+    background: #2a2a40;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    border: 1px solid #3b3b5e;
+    text-align: center;
+}
+
+h2 {
+    color: #ffd700; /* Warna Emas */
+    font-size: 24px;
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+}
+
+.subtitle {
+    font-size: 14px;
+    color: #b3b3cc;
+    margin-bottom: 25px;
+    line-height: 1.5;
+}
+
+/* Form & Input */
+.input-group {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    font-size: 13px;
+    color: #ffd700;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px 15px;
+    background: #1e1e2f;
+    border: 2px solid #3b3b5e;
+    border-radius: 10px;
+    color: #fff;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: #ffd700;
+    box-shadow: 0 0 8px rgba(255, 215, 0, 0.2);
+}
+
+/* Tombol Klaim */
+#btnClaim {
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(45deg, #ff9900, #ff5500);
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 5px 15px rgba(255, 85, 0, 0.4);
+}
+
+#btnClaim:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(255, 85, 0, 0.6);
+}
+
+#btnClaim:active {
+    transform: translateY(1px);
+}
+
+/* Zona Hasil Hadiah */
+#resultZone {
+    margin-top: 25px;
+    padding-top: 25px;
+    border-top: 2px dashed #3b3b5e;
+    animation: fadeIn 0.5s ease-out;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.animation-box {
+    font-size: 50px;
+    margin-bottom: 10px;
+    animation: bounce 1s infinite alternate;
+}
+
+.prize-text {
+    font-size: 32px;
+    font-weight: 800;
+    color: #00ffcc; /* Warna Neon Cyan untuk nominal uang */
+    margin: 15px 0;
+    text-shadow: 0 0 15px rgba(0, 255, 204, 0.4);
+}
+
+/* Animasi CSS */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes bounce {
+    from { transform: translateY(0); }
+    to { transform: translateY(-10px); }
+}
