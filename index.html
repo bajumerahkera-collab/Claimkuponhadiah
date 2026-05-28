@@ -4,11 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CLAIM KUPON BERHADIAH UNTUK ANDA</title>
-    <!-- Font Mewah Google -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     
     <style>
-        /* CSS INTERNAL - BIAR ANTI HANCUR & AMAN DI GITHUB PAGES */
         * {
             margin: 0;
             padding: 0;
@@ -22,33 +20,87 @@
         }
 
         body {
-            background: radial-gradient(circle at center, #1e1e2f 0%, #0d0d13 100%);
+            background-color: #0d0d13;
             color: #ffffff;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             padding: 20px;
-            overflow-x: hidden;
-        }
-
-        /* Container & Kartu Mewah */
-        .container {
-            width: 100%;
-            max-width: 450px;
-        }
-
-        .luxury-card {
-            background: rgba(35, 35, 54, 0.9);
-            padding: 35px 30px;
-            border-radius: 25px;
-            border: 2px solid rgba(255, 215, 0, 0.4); /* Bingkai Emas */
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6), 0 0 30px rgba(255, 215, 0, 0.05);
-            text-align: center;
+            overflow: hidden;
             position: relative;
         }
 
-        /* Judul & Subtitle */
+        /* --- Efek Animasi Background Canvas --- */
+        #bgCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* --- Live Pemenang Ticker (Teks Berjalan Premium) --- */
+        .live-ticker {
+            position: fixed;
+            top: 20px;
+            width: 90%;
+            max-width: 450px;
+            background: rgba(20, 20, 30, 0.85);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 30px;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 10;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
+            overflow: hidden;
+        }
+
+        .ticker-badge {
+            background: linear-gradient(45deg, #ffd700, #ff8c00);
+            color: #11111b;
+            font-size: 10px;
+            font-weight: bold;
+            padding: 4px 10px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            white-space: nowrap;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
+            animation: pulse 1s infinite;
+        }
+
+        .ticker-content {
+            font-size: 12px;
+            color: #e0e0ff;
+            white-space: nowrap;
+            display: inline-block;
+            width: 100%;
+        }
+
+        /* --- Container & Kartu Utama --- */
+        .container {
+            width: 100%;
+            max-width: 450px;
+            z-index: 5;
+            margin-top: 50px;
+        }
+
+        .luxury-card {
+            background: rgba(30, 30, 47, 0.85);
+            padding: 35px 30px;
+            border-radius: 25px;
+            border: 2px solid rgba(255, 215, 0, 0.4); 
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6), 0 0 30px rgba(255, 215, 0, 0.05);
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
         h2 {
             color: #ffd700;
             font-size: 26px;
@@ -76,7 +128,6 @@
             color: #ffd700;
             margin-bottom: 6px;
             font-weight: 600;
-            letter-spacing: 0.5px;
         }
 
         .input-group input {
@@ -118,7 +169,7 @@
             box-shadow: 0 8px 20px rgba(255, 140, 0, 0.5);
         }
 
-        /* Sistem Halaman Swapping */
+        /* Sistem Halaman */
         .page {
             display: none;
         }
@@ -138,13 +189,13 @@
 
         .prize-glow {
             font-size: 38px;
-            color: #00ffcc; /* Warna Neon Cyan */
+            color: #00ffcc; 
             margin: 15px 0;
             text-shadow: 0 0 15px rgba(0, 255, 204, 0.6), 0 0 30px rgba(0, 255, 204, 0.2);
             animation: pulse 2s infinite ease-in-out;
         }
 
-        /* Tombol Ambil Hadiah Neon (Redirect) */
+        /* Tombol Neon */
         .btn-neon {
             display: block;
             width: 100%;
@@ -186,10 +237,16 @@
 </head>
 <body>
 
+    <canvas id="bgCanvas"></canvas>
+
+    <div class="live-ticker">
+        <span class="ticker-badge">LIVE KLAIM</span>
+        <marquee class="ticker-content" id="tickerText" scrollamount="4">Memuat data klaim terbaru...</marquee>
+    </div>
+
     <div class="container">
         <div class="luxury-card">
             
-            <!-- HALAMAN 1: FORM INPUT KLAIM -->
             <div id="formPage" class="page active">
                 <h2>KLAIM KUPON BERHADIAH</h2>
                 <p class="subtitle">Masukkan User ID dan Kode Kupon Anda untuk membuka hadiah uang tunai instan!</p>
@@ -209,24 +266,87 @@
                 </form>
             </div>
 
-            <!-- HALAMAN 2: HASIL HADIAH (AWALNYA SEMBUNYI) -->
             <div id="resultPage" class="page">
                 <div class="gift-icon">🎁</div>
                 <h3>Selamat! Anda Mendapatkan:</h3>
-                
-                <!-- NOMINAL HADIAH ACAK -->
                 <div id="prizeAmount" class="prize-glow">Rp 0</div>
-                
                 <p class="subtitle">Hadiah telah ditambahkan ke User ID Anda.</p>
-                
-                <!-- TOMBOL REDIRECT SEPERTI DI KOTAK MERAH -->
                 <a href="https://mampirbetul.com/" id="btnRedirect" class="btn-neon" target="_blank">CLAIM SEKARANG JUGA</a>
             </div>
 
         </div>
     </div>
 
-    <!-- Hubungkan ke JS -->
+    <script>
+        // --- 1. LOGIKA ANIMASI BACKGROUND (CANVAS PARTICLES) ---
+        const canvas = document.getElementById('bgCanvas');
+        const ctx = canvas.getContext('2d');
+
+        let particlesArray = [];
+        const numberOfParticles = 60;
+
+        function setCanvasSize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        setCanvasSize();
+        window.addEventListener('resize', setCanvasSize);
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 3 + 1;
+                this.speedY = Math.random() * 1 + 0.2; // Bergerak ke atas lambat
+                this.color = `rgba(255, 215, 0, ${Math.random() * 0.4 + 0.1})`; // Variasi opasitas emas
+            }
+            update() {
+                this.y -= this.speedY;
+                if (this.y < 0) {
+                    this.y = canvas.height;
+                    this.x = Math.random() * canvas.width;
+                }
+            }
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            for (let i = 0; i < numberOfParticles; i++) {
+                particlesArray.push(new Particle());
+            }
+        }
+        initParticles();
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].update();
+                particlesArray[i].draw();
+            }
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+
+        // --- 2. LOGIKA LIVE TICKER PEMENANG ACAK ---
+        const nominals = ["Rp 50.000", "Rp 75.000", "Rp 100.000", "Rp 250.000", "Rp 500.000"];
+        const tickerText = document.getElementById('tickerText');
+
+        function generateLiveClaim() {
+            const randomID = "ID_" + Math.floor(1000 + Math.random() * 9000) + "***";
+            const randomNominal = nominals[Math.floor(Math.random() * nominals.length)];
+            tickerText.innerText = `🔥 User ${randomID} baru saja sukses mengklaim ${randomNominal}!  •  🔥 Silakan masukkan kode kupon valid Anda untuk ikut mengklaim!`;
+        }
+        
+        // Buat data live berubah setiap 12 detik agar alami
+        generateLiveClaim();
+        setInterval(generateLiveClaim, 12000);
+    </script>
     <script src="script.js"></script>
 </body>
 </html>
