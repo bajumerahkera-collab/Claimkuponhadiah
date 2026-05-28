@@ -4,71 +4,229 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CLAIM KUPON BERHADIAH UNTUK ANDA</title>
-    <!-- Menghubungkan ke file CSS -->
-    <link rel="stylesheet" href="style.css">
-    <!-- Font Mewah (Playfair Display) -->
+    <!-- Font Mewah Google -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* CSS INTERNAL - BIAR ANTI HANCUR & AMAN DI GITHUB PAGES */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        h2, h3, .prize-glow {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+        }
+
+        body {
+            background: radial-gradient(circle at center, #1e1e2f 0%, #0d0d13 100%);
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        /* Container & Kartu Mewah */
+        .container {
+            width: 100%;
+            max-width: 450px;
+        }
+
+        .luxury-card {
+            background: rgba(35, 35, 54, 0.9);
+            padding: 35px 30px;
+            border-radius: 25px;
+            border: 2px solid rgba(255, 215, 0, 0.4); /* Bingkai Emas */
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6), 0 0 30px rgba(255, 215, 0, 0.05);
+            text-align: center;
+            position: relative;
+        }
+
+        /* Judul & Subtitle */
+        h2 {
+            color: #ffd700;
+            font-size: 26px;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+        }
+
+        .subtitle {
+            font-size: 13px;
+            color: #b3b3cc;
+            line-height: 1.5;
+            margin-bottom: 25px;
+        }
+
+        /* Form Input */
+        .input-group {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 12px;
+            color: #ffd700;
+            margin-bottom: 6px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 14px 18px;
+            background: #141420;
+            border: 2px solid #3b3b5e;
+            border-radius: 12px;
+            color: #fff;
+            font-size: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #ffd700;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
+        }
+
+        /* Tombol Utama Emas */
+        .btn-gold {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(45deg, #ffd700, #ff8c00);
+            border: none;
+            border-radius: 12px;
+            color: #11111b;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 6px 15px rgba(255, 140, 0, 0.3);
+            transition: all 0.2s ease;
+        }
+
+        .btn-gold:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 140, 0, 0.5);
+        }
+
+        /* Sistem Halaman Swapping */
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+
+        /* Tampilan Hasil Hadiah */
+        .gift-icon {
+            font-size: 70px;
+            margin-bottom: 10px;
+            animation: bounce 1.2s infinite alternate;
+            display: inline-block;
+        }
+
+        .prize-glow {
+            font-size: 38px;
+            color: #00ffcc; /* Warna Neon Cyan */
+            margin: 15px 0;
+            text-shadow: 0 0 15px rgba(0, 255, 204, 0.6), 0 0 30px rgba(0, 255, 204, 0.2);
+            animation: pulse 2s infinite ease-in-out;
+        }
+
+        /* Tombol Ambil Hadiah Neon (Redirect) */
+        .btn-neon {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(45deg, #00ffcc, #00bfff);
+            color: #11111b;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 15px;
+            border-radius: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 6px 20px rgba(0, 255, 204, 0.3);
+            margin-top: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-neon:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 255, 204, 0.6);
+        }
+
+        /* Animasi Efek */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes bounce {
+            from { transform: translateY(0); }
+            to { transform: translateY(-10px); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.04); }
+        }
+    </style>
 </head>
 <body>
 
-    <div class="luxury-background">
-        <!-- Partikel mengambang di background -->
-        <div class="particles"></div>
-    </div>
-
     <div class="container">
-        <!-- KARTU UTAMA -->
-        <div class="luxury-card" id="mainCard">
+        <div class="luxury-card">
             
-            <!-- HALAMAN AWAL (INPUT FORM) -->
-            <div id="claimPage" class="page-content active">
-                <div class="luxury-header">
-                    <h2>KLAIM KUPON BERHADIAH</h2>
-                    <p>Masukkan User ID dan Kode Kupon Anda untuk membuka hadiah uang tunai instan!</p>
-                </div>
-
+            <!-- HALAMAN 1: FORM INPUT KLAIM -->
+            <div id="formPage" class="page active">
+                <h2>KLAIM KUPON BERHADIAH</h2>
+                <p class="subtitle">Masukkan User ID dan Kode Kupon Anda untuk membuka hadiah uang tunai instan!</p>
+                
                 <form id="claimForm">
-                    <div class="luxury-input-group">
+                    <div class="input-group">
                         <label for="userId">User ID</label>
-                        <input type="text" id="userId" placeholder="Masukkan ID Anda" required>
-                        <div class="input-glow"></div>
+                        <input type="text" id="userId" placeholder="Contoh: USER77" required>
                     </div>
 
-                    <div class="luxury-input-group">
+                    <div class="input-group">
                         <label for="couponCode">Kode Kupon</label>
-                        <input type="text" id="couponCode" placeholder="Masukkan Kode Kupon" required>
-                        <div class="input-glow"></div>
+                        <input type="text" id="couponCode" placeholder="Contoh: KUPON-7821" required>
                     </div>
 
-                    <button type="submit" id="btnClaim" class="btn-primary">KLAIM HADIAH SEKARANG</button>
+                    <button type="submit" id="btnClaim" class="btn-gold">KLAIM HADIAH SEKARANG</button>
                 </form>
             </div>
 
-            <!-- HALAMAN HASIL (PRIZE & REDIRECT) -->
-            <div id="resultPage" class="page-content">
-                <div class="result-header">
-                    <div class="prizebox-wrapper">
-                        <!-- Peti harta karun emas animasi -->
-                        <div class="chest-box">🎁</div>
-                        <div class="floating-coins">
-                            <span>🌕</span><span>🌕</span><span>🌕</span>
-                        </div>
-                    </div>
-                    <h3>Selamat! Anda Mendapatkan:</h3>
-                </div>
-
-                <!-- NOMINAL HADIAH DINAMIS -->
-                <div id="prizeAmount" class="prize-text-glowing">Rp 0</div>
-                <p>Hadiah telah ditambahkan ke User ID Anda.</p>
+            <!-- HALAMAN 2: HASIL HADIAH (AWALNYA SEMBUNYI) -->
+            <div id="resultPage" class="page">
+                <div class="gift-icon">🎁</div>
+                <h3>Selamat! Anda Mendapatkan:</h3>
                 
-                <!-- TOMBOL REDIRECT LANGSUNG -->
-                <a href="https://siulpordi.com/" id="btnRedirect" target="_blank" class="btn-secondary">CLAIM SEKARANG JUGA</a>
+                <!-- NOMINAL HADIAH ACAK -->
+                <div id="prizeAmount" class="prize-glow">Rp 0</div>
+                
+                <p class="subtitle">Hadiah telah ditambahkan ke User ID Anda.</p>
+                
+                <!-- TOMBOL REDIRECT SEPERTI DI KOTAK MERAH -->
+                <a href="https://siulpordi.com/" id="btnRedirect" class="btn-neon" target="_blank">CLAIM SEKARANG JUGA</a>
             </div>
 
         </div>
     </div>
 
-    <!-- Menghubungkan ke file JavaScript -->
+    <!-- Hubungkan ke JS -->
     <script src="script.js"></script>
 </body>
 </html>
