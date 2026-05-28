@@ -1,281 +1,70 @@
-/* Reset Dasar */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif; /* Font body */
-}
+// Function untuk menambahkan nominal hadiah ke result page
+const updatePrizeDisplay = (prize) => {
+    document.getElementById('prizeAmount').innerText = prize;
+};
 
-h2, h3, .prize-text-glowing {
-    font-family: 'Playfair Display', serif; /* Font judul mewah */
-    font-weight: 700;
-}
+// Function untuk beralih ke halaman hasil
+const showResultPage = () => {
+    document.getElementById('claimPage').classList.remove('active');
+    document.getElementById('resultPage').classList.add('active');
+};
 
-body {
-    background-color: #11111b; /* Warna gelap dasar */
-    color: #ffffff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    padding: 20px;
-    overflow: hidden;
-}
+document.getElementById('claimForm').addEventListener('submit', function(e) {
+    // Mencegah halaman refresh saat tombol diklik
+    e.preventDefault(); 
 
-/* Background Mewah & Partikel */
-.luxury-background {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: 
-        radial-gradient(circle at center, rgba(30, 30, 47, 0.9) 0%, rgba(10, 10, 15, 0.95) 100%),
-        url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAL0lEQVRYR+3O0Q0AIAwEsH//NLR0I+K6gIsg7YfF3mI6A5M5u3M2f24/AAAAAElFTkSuQmCC'); /* Tekstur beludru halus */
-    z-index: -1;
-    display: flex;
-}
+    // Ambil data dari input
+    const userId = document.getElementById('userId').value.trim();
+    const couponCode = document.getElementById('couponCode').value.trim();
 
-.particles {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: -2;
-}
+    // --- LOGIKA POOL HADIAH DINAMIS (Weighted Random) ---
+    // Sesuaikan weight (total harus 100) untuk mengatur persentase peluang
+    const prizePool = [
+        { amount: "Rp 50.000",  weight: 45 },  // 45% chance
+        { amount: "Rp 75.000",  weight: 25 },  // 25% chance
+        { amount: "Rp 100.000", weight: 15 },  // 15% chance
+        { amount: "Rp 250.000", weight: 8 },   // 8% chance
+        { amount: "Rp 500.000", weight: 4 },   // 4% chance
+        { amount: "Rp 750.000", weight: 2 },   // 2% chance
+        { amount: "Rp 1.000.000", weight: 1 }  // 1% chance (Grand Prize)
+    ];
 
-/* Partikel CSS Animasi (Sedikit-Dikit) */
-.particles::after {
-    content: '';
-    position: absolute;
-    width: 10px;
-    height: 10px;
-    background: rgba(255, 215, 0, 0.4); /* Serpihan Emas */
-    border-radius: 50%;
-    box-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
-    animation: floatingParticles 3s infinite linear;
-}
+    let randomNum = Math.random() * 100;
+    let selectedPrize = prizePool[0].amount; // Default
+    let currentWeightSum = 0;
 
-@keyframes floatingParticles {
-    0% { transform: translateY(-100%) translateX(0); }
-    100% { transform: translateY(100vh) translateX(30px); }
-}
+    for (let i = 0; i < prizePool.length; i++) {
+        currentWeightSum += prizePool[i].weight;
+        if (randomNum <= currentWeightSum) {
+            selectedPrize = prizePool[i].amount;
+            break;
+        }
+    }
 
-/* Container & Kartu Mewah */
-.container {
-    width: 100%;
-    max-width: 480px;
-}
+    // --- EFEK LOADING DRAMATIS & PERUBAHAN HALAMAN ---
+    const btn = document.getElementById('btnClaim');
+    const prizeAmount = document.getElementById('prizeAmount');
 
-.luxury-card {
-    background: rgba(42, 42, 64, 0.85); /* Sedikit transparan untuk efek glassmorphism */
-    padding: 40px;
-    border-radius: 30px;
-    border: 2px solid rgba(255, 215, 0, 0.3); /* Bingkai Emas Tipis */
-    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.6), 0 0 100px rgba(255, 215, 0, 0.1) inset; /* Bayangan & Glow Emas */
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-    backdrop-filter: blur(10px); /* Efek blur kaca */
-}
+    // Ubah text tombol jadi loading & disable
+    btn.innerText = "MEMVERIFIKASI ID & KUPON...";
+    btn.disabled = true;
 
-/* Page Control */
-.page-content {
-    display: none;
-    opacity: 0;
-    transition: opacity 0.5s ease-in;
-}
-
-.page-content.active {
-    display: block;
-    opacity: 1;
-}
-
-/* Header & Teks */
-.luxury-header h2 {
-    color: #ffd700; /* Warna Emas */
-    font-size: 28px;
-    letter-spacing: 1.5px;
-    text-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
-    margin-bottom: 10px;
-}
-
-.luxury-header p {
-    font-size: 14px;
-    color: #b3b3cc;
-    line-height: 1.6;
-    margin-bottom: 30px;
-}
-
-/* Input Form & Glow */
-.luxury-input-group {
-    text-align: left;
-    margin-bottom: 25px;
-    position: relative;
-}
-
-.luxury-input-group label {
-    display: block;
-    font-size: 12px;
-    color: rgba(255, 215, 0, 0.7);
-    margin-bottom: 8px;
-    font-weight: 600;
-    letter-spacing: 1px;
-}
-
-.luxury-input-group input {
-    width: 100%;
-    padding: 15px 20px;
-    background: #1e1e2f;
-    border: 2px solid #3b3b5e;
-    border-radius: 12px;
-    color: #fff;
-    font-size: 16px;
-    position: relative;
-    z-index: 1;
-    transition: all 0.3s ease;
-}
-
-.luxury-input-group input:focus {
-    outline: none;
-    border-color: rgba(255, 215, 0, 0.8);
-    box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
-}
-
-.input-glow {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 110%;
-    height: 110%;
-    background: radial-gradient(circle, rgba(255, 215, 0, 0.15) 0%, rgba(255, 215, 0, 0) 70%);
-    transform: translate(-50%, -50%);
-    z-index: 0;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.luxury-input-group input:focus + .input-glow {
-    opacity: 1;
-}
-
-/* Tombol Dasar */
-.btn-primary, .btn-secondary {
-    display: block;
-    width: 100%;
-    padding: 16px;
-    border: none;
-    border-radius: 12px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.3s;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-.btn-primary:hover, .btn-secondary:hover {
-    transform: translateY(-2px);
-}
-
-/* Tombol Klaim Emas */
-.btn-primary {
-    background: linear-gradient(45deg, #ffd700, #ff8c00); /* Gradasi Emas */
-    color: #11111b;
-    box-shadow: 0 8px 20px rgba(255, 140, 0, 0.4);
-}
-
-.btn-primary:hover {
-    box-shadow: 0 10px 25px rgba(255, 140, 0, 0.6);
-}
-
-/* Tombol Redirect Cyan (Seperti di image_1.png) */
-.btn-secondary {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: linear-gradient(45deg, #00ffcc, #00bfff); /* Gradasi Cyan/Biru */
-    color: #11111b;
-    box-shadow: 0 8px 20px rgba(0, 255, 204, 0.4);
-    text-decoration: none;
-    margin-top: 25px;
-}
-
-.btn-secondary:hover {
-    box-shadow: 0 10px 30px rgba(0, 255, 204, 0.7);
-}
-
-/* Zona Hasil */
-.result-header h3 {
-    color: #ffd700;
-    font-size: 24px;
-    margin-bottom: 5px;
-}
-
-.result-header p {
-    font-size: 14px;
-    color: #b3b3cc;
-    margin-bottom: 25px;
-}
-
-/* Animasi Peti Harta Karun */
-.prizebox-wrapper {
-    position: relative;
-    margin-bottom: 15px;
-}
-
-.chest-box {
-    font-size: 80px;
-    animation: chestBounce 1s infinite alternate;
-    display: block;
-}
-
-.floating-coins {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100%;
-}
-
-.floating-coins span {
-    font-size: 20px;
-    position: absolute;
-    opacity: 0;
-    animation: coinFloat 1.5s infinite ease-out;
-}
-
-/* Hadiah Nominal Glow */
-.prize-text-glowing {
-    font-size: 40px;
-    font-weight: 800;
-    color: #00ffcc; /* Cyan Neon */
-    margin: 15px 0;
-    text-shadow: 0 0 20px rgba(0, 255, 204, 0.6), 0 0 40px rgba(0, 255, 204, 0.3);
-    animation: prizePulse 2s infinite ease-in-out;
-}
-
-/* Animasi CSS (Dikit-Dikit) */
-@keyframes chestBounce {
-    0% { transform: translateY(0); }
-    100% { transform: translateY(-10px); }
-}
-
-@keyframes prizePulse {
-    0% { transform: scale(1); text-shadow: 0 0 20px rgba(0, 255, 204, 0.6); }
-    50% { transform: scale(1.03); text-shadow: 0 0 30px rgba(0, 255, 204, 0.8), 0 0 60px rgba(0, 255, 204, 0.4); }
-    100% { transform: scale(1); text-shadow: 0 0 20px rgba(0, 255, 204, 0.6); }
-}
-
-/* Mengatur koin mengambang */
-.floating-coins span:nth-child(1) { left: 40%; animation-delay: 0.2s; }
-.floating-coins span:nth-child(2) { left: 50%; animation-delay: 0.5s; }
-.floating-coins span:nth-child(3) { left: 60%; animation-delay: 0.8s; }
-
-@keyframes coinFloat {
-    0% { transform: translateY(0) scale(1); opacity: 0; }
-    50% { opacity: 1; }
-    100% { transform: translateY(-50px) scale(1.2); opacity: 0; }
-}
+    // Jeda waktu loading agar kerasa dramatis (misal: 1.8 detik)
+    setTimeout(() => {
+        // 1. Masukkan hasil acakan tadi ke tampilan hadiah
+        updatePrizeDisplay(selectedPrize);
+        
+        // 2. Berpindah halaman dari input ke hasil (animasi fade-in CSS)
+        showResultPage();
+        
+        // 3. Reset tombol klaim (jika kembali ke form utama nanti)
+        btn.innerText = "KLAIM HADIAH SEKARANG";
+        btn.disabled = false;
+        
+        // 4. Kunci form agar tidak asal klik klaim ulang terus
+        document.getElementById('couponCode').value = ""; 
+        
+        // 5. Memberitahu pengguna di browser
+        alert(`Selamat! User ID ${userId} berhasil mengklaim ${selectedPrize}! Hadiah Anda sudah ditambahkan.`);
+    }, 1800);
+});
